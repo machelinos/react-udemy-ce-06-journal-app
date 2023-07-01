@@ -22,5 +22,5 @@ export const JournalLayout = ({ children }) => {
 }
 
 JournalLayout.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.array.isRequired,
 }
