@@ -1,5 +1,5 @@
 import { signInGoogle } from '../../firebase/providers'
-import { checkingCredentials } from './authSlice'
+import { checkingCredentials, login, logout } from './authSlice'
 
 export const startAuthentication = () => {
   return async (dispatch) => {
@@ -8,10 +8,16 @@ export const startAuthentication = () => {
   }
 }
 
-export const startGoogleSinIn = () => {
+export const startGoogleSignIn = () => {
   return async (dispatch) => {
     dispatch(checkingCredentials())
 
     const resp = await signInGoogle()
+
+    console.log({ resp })
+
+    if (!resp.ok) return dispatch(logout(resp))
+
+    return dispatch(login(resp))
   }
 }
