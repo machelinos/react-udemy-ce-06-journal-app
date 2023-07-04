@@ -1,22 +1,39 @@
 import { Navigate } from 'react-router-dom'
 import { LoginPage } from '../pages/LoginPage'
 import { RegisterPage } from '../pages/RegisterPage'
+import { PublicRouter } from '../../router/PublicRouter'
 
 export const AuthRoutes = [
   {
     index: true,
-    element: <Navigate to="/auth/login" />,
+    element: (
+      <PublicRouter>
+        <Navigate to="/auth/login" />
+      </PublicRouter>
+    ),
   },
   {
     path: 'login',
-    element: <LoginPage />,
+    element: (
+      <PublicRouter>
+        <LoginPage />
+      </PublicRouter>
+    ),
   },
   {
     path: 'register',
-    element: <RegisterPage />,
+    element: (
+      <PublicRouter>
+        <RegisterPage />
+      </PublicRouter>
+    ),
   },
   {
     path: '*',
-    element: <Navigate to="/auth/login" />,
+    element: (
+      <PublicRouter>
+        <Navigate to="/auth/login" />
+      </PublicRouter>
+    ),
   },
 ]
