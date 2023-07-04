@@ -2,20 +2,46 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { AuthLayout } from '../layout/AuthLayout'
 import { useForm } from '../../hooks'
+import { useState } from 'react'
 
 const initialFormValues = {
-  displayName: 'Joy Marcelle',
-  email: 'mail@test.com',
+  displayName: '',
+  email: '',
   password: '123456',
 }
 
+const formValidations = {
+  displayName: [
+    (value) => {
+      return value.length >= 1
+    },
+    'Username is required',
+  ],
+  email: [(value) => value.includes('@'), 'Email must contain @'],
+  password: [
+    (value) => value.length > 5,
+    'Password must be at least 6 characters',
+  ],
+}
+
 export const RegisterPage = () => {
-  const { displayName, email, password, formState, handleInputChange } =
-    useForm(initialFormValues)
+  const {
+    displayName,
+    displayNameValid,
+    email,
+    emailValid,
+    password,
+    passwordValid,
+    formState,
+    handleInputChange,
+    isFormValid,
+  } = useForm(initialFormValues, formValidations)
+
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(formState)
+    setFormSubmitted(true)
   }
 
   return (
@@ -24,7 +50,9 @@ export const RegisterPage = () => {
         <Grid container>
           <Grid item xs={12}>
             <TextField
+              error={!!displayNameValid && formSubmitted}
               fullWidth
+              helperText={displayNameValid}
               label="Name"
               name="displayName"
               placeholder="Your name"
@@ -41,6 +69,8 @@ export const RegisterPage = () => {
               placeholder="email@google.com"
               type="email"
               value={email}
+              error={!!emailValid && formSubmitted}
+              helperText={emailValid}
               onChange={handleInputChange}
             />
           </Grid>
@@ -52,6 +82,8 @@ export const RegisterPage = () => {
               placeholder="Your password"
               type="password"
               value={password}
+              error={!!passwordValid && formSubmitted}
+              helperText={passwordValid}
               onChange={handleInputChange}
             />
           </Grid>
