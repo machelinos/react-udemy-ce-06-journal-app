@@ -1,9 +1,9 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-import { Button, Grid, Link, TextField, Typography } from '@mui/material'
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { AuthLayout } from '../layout/AuthLayout'
 import { useForm } from '../../hooks'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { startRegisterWithEmailPassword } from '../../store'
 
 const initialFormValues = {
@@ -39,7 +39,10 @@ export const RegisterPage = () => {
     isFormValid,
   } = useForm(initialFormValues, formValidations)
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const { status, errorMessage } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+
+  const isAuthenticating = useMemo(() => status === 'checking', [status])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -95,8 +98,19 @@ export const RegisterPage = () => {
         </Grid>
 
         <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+          {!!errorMessage && (
+            <Grid item xs={12}>
+              <Alert severity="error">{errorMessage}</Alert>
+            </Grid>
+          )}
+
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" fullWidth>
+            <Button
+              disabled={isAuthenticating}
+              type="submit"
+              variant="contained"
+              fullWidth
+            >
               Create account
             </Button>
           </Grid>
