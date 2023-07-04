@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    status: 'not-authenticated', // 'authenticated', 'checking'
+    status: 'checking', // 'authenticated', 'checking', 'not'authenticated
     uid: null,
     email: null,
     displayName: null,
