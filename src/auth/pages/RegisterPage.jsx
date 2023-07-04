@@ -1,12 +1,14 @@
+import { useDispatch } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
 import { Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { AuthLayout } from '../layout/AuthLayout'
 import { useForm } from '../../hooks'
 import { useState } from 'react'
+import { startRegisterWithEmailPassword } from '../../store'
 
 const initialFormValues = {
-  displayName: '',
-  email: '',
+  displayName: 'Machelinos',
+  email: 'marcelcabrera@gmail.com',
   password: '123456',
 }
 
@@ -36,12 +38,15 @@ export const RegisterPage = () => {
     handleInputChange,
     isFormValid,
   } = useForm(initialFormValues, formValidations)
-
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
     event.preventDefault()
+
+    if (!isFormValid) return
     setFormSubmitted(true)
+    dispatch(startRegisterWithEmailPassword(formState))
   }
 
   return (
