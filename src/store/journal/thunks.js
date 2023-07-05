@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
+import { collection, doc, setDoc } from 'firebase/firestore'
 import { FirebaseFirestore } from '../../firebase/config'
 import { addNewEmptyNote, savingNote, setActiveNote, setNotes } from './'
 import { getNotes } from '../../helpers'

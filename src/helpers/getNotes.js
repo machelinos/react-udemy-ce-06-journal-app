@@ -2,6 +2,7 @@ import { collection, getDocs } from 'firebase/firestore'
 import { FirebaseFirestore } from '../firebase/config'
 
 export const getNotes = async (uid = '') => {
+  console.log({ uid })
   if (!uid) throw new Error('Error getting notes: no valid user id')
 
   let notes = []
