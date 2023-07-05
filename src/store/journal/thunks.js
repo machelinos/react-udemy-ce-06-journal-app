@@ -1,6 +1,7 @@
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
 import { FirebaseFirestore } from '../../firebase/config'
-import { addNewEmptyNote, savingNote, setActiveNote } from './'
+import { addNewEmptyNote, savingNote, setActiveNote, setNotes } from './'
+import { getNotes } from '../../helpers'
 
 export const startAddNewEmptyNote = () => {
   return async (dispatch, getState) => {
@@ -21,5 +22,15 @@ export const startAddNewEmptyNote = () => {
 
     dispatch(addNewEmptyNote(newNote))
     dispatch(setActiveNote(newNote))
+  }
+}
+
+export const startGettingNotes = () => {
+  return async (dispatch, getState) => {
+    const { uid } = getState().auth
+
+    const notes = await getNotes(uid)
+
+    dispatch(setNotes(notes))
   }
 }
