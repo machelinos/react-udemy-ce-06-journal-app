@@ -12,8 +12,6 @@ export const startGoogleSignIn = () => {
 
     const resp = await signInGoogle()
 
-    console.log({ resp })
-
     if (!resp.ok) return dispatch(logout(resp))
 
     return dispatch(login(resp))
