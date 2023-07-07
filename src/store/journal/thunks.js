@@ -51,7 +51,7 @@ export const startUpdatingNote = (note) => {
 
     await updateDoc(docRef, note)
 
-    dispatch(updateNote(note))
     dispatch(setActiveNote(note))
+    dispatch(updateNote(note))
   }
 }

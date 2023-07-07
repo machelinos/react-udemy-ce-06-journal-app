@@ -1,8 +1,10 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import SaveOutlined from '@mui/icons-material/SaveOutlined'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import dayjs from 'dayjs'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 import { ImageGallery } from '../'
 import { useForm } from '../../hooks/useForm'
 import { startUpdatingNote } from '../../store'
@@ -16,7 +18,9 @@ const formValidations = {
 }
 
 export const NoteView = () => {
-  const { activeNote, isSaving } = useSelector((state) => state.journal)
+  const { activeNote, isSaving, messageSaved } = useSelector(
+    (state) => state.journal,
+  )
 
   const { title, body, date, handleInputChange, formState } = useForm(
     activeNote,
@@ -32,6 +36,12 @@ export const NoteView = () => {
   const handleSaving = () => {
     dispatch(startUpdatingNote(formState))
   }
+
+  useEffect(() => {
+    if (messageSaved.length > 0) {
+      Swal.fire('Note updated', messageSaved, 'success')
+    }
+  }, [messageSaved])
 
   return (
     <Grid
