@@ -22,6 +22,7 @@ export const journalSlice = createSlice({
     },
     setActiveNote: (state, { payload }) => {
       state.activeNote = payload
+      state.isSaving = false
     },
     savingNote: (state) => {
       state.isSaving = true
@@ -29,9 +30,23 @@ export const journalSlice = createSlice({
     setNotes: (state, { payload }) => {
       state.notes = payload
     },
+    updateNote: (state, { payload }) => {
+      state.notes = state.notes.map((note) => {
+        if (note.id === payload.id) {
+          return payload
+        }
+
+        return note
+      })
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyNote, savingNote, setActiveNote, setNotes } =
-  journalSlice.actions
+export const {
+  addNewEmptyNote,
+  savingNote,
+  setActiveNote,
+  setNotes,
+  updateNote,
+} = journalSlice.actions

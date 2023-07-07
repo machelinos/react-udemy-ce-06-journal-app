@@ -1,25 +1,24 @@
+import { useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import SaveOutlined from '@mui/icons-material/SaveOutlined'
 import { Button, Grid, TextField, Typography } from '@mui/material'
+import dayjs from 'dayjs'
 import { ImageGallery } from '../'
 import { useForm } from '../../hooks/useForm'
-import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
-import dayjs from 'dayjs'
+import { startUpdatingNote } from '../../store'
+
+const formValidations = {
+  title: [(value) => value.length >= 3, 'Title must be at least 3 characters'],
+  body: [
+    (value) => value.length >= 3,
+    'Body text must be at least 3 characters',
+  ],
+}
 
 export const NoteView = () => {
-  const { activeNote } = useSelector((state) => state.journal)
-  const formValidations = {
-    title: [
-      (value) => value.length >= 3,
-      'Title must be at least 3 characters',
-    ],
-    body: [
-      (value) => value.length >= 3,
-      'Body text must be at least 3 characters',
-    ],
-  }
+  const { activeNote, isSaving } = useSelector((state) => state.journal)
 
-  const { title, body, date, handleInputChange } = useForm(
+  const { title, body, date, handleInputChange, formState } = useForm(
     activeNote,
     formValidations,
   )
@@ -27,6 +26,12 @@ export const NoteView = () => {
   const dateString = useMemo(() => {
     return dayjs(date).format('MMMM D, YYYY')
   }, [date])
+
+  const dispatch = useDispatch()
+
+  const handleSaving = () => {
+    dispatch(startUpdatingNote(formState))
+  }
 
   return (
     <Grid
@@ -42,7 +47,12 @@ export const NoteView = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <Button color="primary" sx={{ padding: 2 }}>
+        <Button
+          color="primary"
+          sx={{ padding: 2 }}
+          disabled={isSaving}
+          onClick={handleSaving}
+        >
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Save
         </Button>
