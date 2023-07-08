@@ -51,8 +51,6 @@ export const NoteView = () => {
   }
 
   const handleFileInputChange = ({ target }) => {
-    console.log(target.files)
-
     if (target.files.length === 0) return
 
     dispatch(startUploadingImages(target.files))
