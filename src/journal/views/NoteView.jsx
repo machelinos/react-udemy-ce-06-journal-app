@@ -1,13 +1,14 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import SaveOutlined from '@mui/icons-material/SaveOutlined'
 import { Button, Grid, TextField, Typography } from '@mui/material'
+import SaveOutlined from '@mui/icons-material/SaveOutlined'
+import UploadFileOutlined from '@mui/icons-material/UploadFileOutlined'
 import dayjs from 'dayjs'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { ImageGallery } from '../'
 import { useForm } from '../../hooks/useForm'
-import { startUpdatingNote } from '../../store'
+import { startUpdatingNote, startUploadingImages } from '../../store'
 
 const formValidations = {
   title: [(value) => value.length >= 3, 'Title must be at least 3 characters'],
@@ -33,8 +34,22 @@ export const NoteView = () => {
 
   const dispatch = useDispatch()
 
+  const fileInputRef = useRef()
+
   const handleSaving = () => {
     dispatch(startUpdatingNote(formState))
+  }
+
+  const handleFileUploadClick = () => {
+    fileInputRef.current.click()
+  }
+
+  const handleFileInputChange = ({ target }) => {
+    console.log(target.files)
+
+    if (target.files.length === 0) return
+
+    dispatch(startUploadingImages(target.files))
   }
 
   useEffect(() => {
@@ -56,7 +71,20 @@ export const NoteView = () => {
           {dateString}
         </Typography>
       </Grid>
+
+      <input
+        type="file"
+        multiple
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+        onChange={handleFileInputChange}
+      />
+
       <Grid item>
+        <Button disabled={isSaving} onClick={handleFileUploadClick}>
+          <UploadFileOutlined />
+        </Button>
+
         <Button
           color="primary"
           sx={{ padding: 2 }}

@@ -4,10 +4,12 @@ import {
   addNewEmptyNote,
   savingNote,
   setActiveNote,
+  setImagesToActiveNote,
   setNotes,
   updateNote,
 } from './'
 import { getNotes } from '../../helpers'
+import { uploadFile } from '../../helpers/uploadFile'
 
 export const startAddNewEmptyNote = () => {
   return async (dispatch, getState) => {
@@ -17,6 +19,7 @@ export const startAddNewEmptyNote = () => {
       title: '',
       body: '',
       date: new Date().getTime(),
+      imageUrls: [],
     }
 
     const { uid } = getState().auth
@@ -53,5 +56,17 @@ export const startUpdatingNote = (note) => {
 
     dispatch(setActiveNote(note))
     dispatch(updateNote(note))
+  }
+}
+
+export const startUploadingImages = (files = []) => {
+  return async (dispatch) => {
+    dispatch(savingNote())
+
+    const imageUrls = await Promise.all(
+      Array.prototype.map.call(files, uploadFile),
+    )
+
+    dispatch(setImagesToActiveNote(imageUrls))
   }
 }
