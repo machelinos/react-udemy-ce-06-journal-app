@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setActiveNote } from '../store'
 
 export const useForm = (initialForm = {}, formValidations = {}) => {
   const [formState, setFormState] = useState(initialForm)
   const [formValidation, setFormValidation] = useState({})
-  const dispatch = useDispatch()
 
   const handleInputChange = ({ target }) => {
     const { name, value } = target
@@ -40,7 +37,6 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 
   useEffect(() => {
     createValidations()
-    dispatch(setActiveNote(formState))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState])
 

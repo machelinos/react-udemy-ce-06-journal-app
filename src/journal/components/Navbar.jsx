@@ -3,12 +3,13 @@ import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import LogoutOutlined from '@mui/icons-material/LogoutOutlined'
 import MenuOutlined from '@mui/icons-material/MenuOutlined'
 import PropTypes from 'prop-types'
-import { startSignOut } from '../../store'
+import { resetNotes, startSignOut } from '../../store'
 
 export const Navbar = ({ drawerWidth }) => {
   const dispatch = useDispatch()
   const handleLogout = () => {
     dispatch(startSignOut())
+    dispatch(resetNotes())
   }
 
   return (

@@ -8,7 +8,11 @@ import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { ImageGallery } from '../'
 import { useForm } from '../../hooks/useForm'
-import { startUpdatingNote, startUploadingImages } from '../../store'
+import {
+  setActiveNote,
+  startUpdatingNote,
+  startUploadingImages,
+} from '../../store'
 
 const formValidations = {
   title: [(value) => value.length >= 3, 'Title must be at least 3 characters'],
@@ -57,6 +61,11 @@ export const NoteView = () => {
       Swal.fire('Note updated', messageSaved, 'success')
     }
   }, [messageSaved])
+
+  useEffect(() => {
+    dispatch(setActiveNote(formState))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState])
 
   return (
     <Grid
