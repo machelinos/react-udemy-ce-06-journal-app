@@ -8,8 +8,7 @@ import {
   setNotes,
   updateNote,
 } from './'
-import { getNotes } from '../../helpers'
-import { uploadFile } from '../../helpers/uploadFile'
+import { getNotes, uploadFile } from '../../helpers'
 
 export const startAddNewEmptyNote = () => {
   return async (dispatch, getState) => {
@@ -25,7 +24,7 @@ export const startAddNewEmptyNote = () => {
     const { uid } = getState().auth
 
     const newDoc = doc(collection(FirebaseFirestore, `${uid}/journal/notes`))
-    const respSetDoc = await setDoc(newDoc, newNote)
+    await setDoc(newDoc, newNote)
 
     newNote.id = newDoc.id
 
