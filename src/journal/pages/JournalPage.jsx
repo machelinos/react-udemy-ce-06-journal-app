@@ -15,7 +15,7 @@ export const JournalPage = () => {
 
   return (
     <JournalLayout>
-      {activeNote ? <NoteView /> : <NothingSelectedView />}(
+      {activeNote ? <NoteView /> : <NothingSelectedView />}
       <IconButton
         size="large"
         sx={{
@@ -32,7 +32,6 @@ export const JournalPage = () => {
       >
         <AddOutlined sx={{ fontSize: 30 }} />
       </IconButton>
-      )
     </JournalLayout>
   )
 }

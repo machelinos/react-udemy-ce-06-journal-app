@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Grid, TextField, Typography } from '@mui/material'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
 import SaveOutlined from '@mui/icons-material/SaveOutlined'
 import UploadFileOutlined from '@mui/icons-material/UploadFileOutlined'
 import dayjs from 'dayjs'
@@ -10,6 +11,7 @@ import { ImageGallery } from '../'
 import { useForm } from '../../hooks/useForm'
 import {
   setActiveNote,
+  startDeletingNote,
   startUpdatingNote,
   startUploadingImages,
 } from '../../store'
@@ -54,6 +56,11 @@ export const NoteView = () => {
     if (target.files.length === 0) return
 
     dispatch(startUploadingImages(target.files))
+  }
+
+  const handleDeleteNote = () => {
+    // dispatch startDeletingNote
+    dispatch(startDeletingNote(activeNote.id))
   }
 
   useEffect(() => {
@@ -131,6 +138,13 @@ export const NoteView = () => {
       </Grid>
 
       <ImageGallery />
+
+      <Grid container justifyContent="start" sx={{ mt: 2, mb: 2 }}>
+        <Button color="error" onClick={handleDeleteNote} disabled={isSaving}>
+          <DeleteOutline />
+          Delete Note
+        </Button>
+      </Grid>
     </Grid>
   )
 }

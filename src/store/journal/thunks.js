@@ -1,7 +1,14 @@
-import { collection, doc, setDoc, updateDoc } from 'firebase/firestore'
+import {
+  collection,
+  deleteDoc,
+  doc,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore'
 import { FirebaseFirestore } from '../../firebase/config'
 import {
   addNewEmptyNote,
+  deleteNote,
   savingNote,
   setActiveNote,
   setImagesToActiveNote,
@@ -67,5 +74,18 @@ export const startUploadingImages = (files = []) => {
     )
 
     dispatch(setImagesToActiveNote(imageUrls))
+  }
+}
+
+export const startDeletingNote = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(savingNote())
+
+    const { uid } = getState().auth
+    const docRef = doc(FirebaseFirestore, `${uid}/journal/notes/${id}`)
+    await deleteDoc(docRef)
+
+    dispatch(deleteNote(id))
+    dispatch(setActiveNote(null))
   }
 }
