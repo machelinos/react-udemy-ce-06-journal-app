@@ -38,7 +38,7 @@ describe('Journal thunks tests', () => {
         date: expect.any(Number),
         imageUrls: [],
       }),
-    )zxczxc
+    )
 
     // Delete all notes (only for dev firebase server)
     const collRef = collection(FirebaseFirestore, `${uid}/journal/notes`)
